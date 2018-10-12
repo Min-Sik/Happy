@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	min-width: 800px;
+	margin: 0;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+header {
+	flex: 0 0 100px;
+	background-color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+nav {
+	background-color: #333;
+}
+
+ul {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+li {
+	float: left;
+}
+
+li a, .dropbtn {
+	display: inline-block;
+	background-color: #333;
+	text-decoration: none;
+	color: white;
+	padding: 10px 20px;
+}
+
+li a:hover, .dropbtn:hover {
+	background-color: black;
+}
+
+.dropmenu {
+	display: none;
+	position: absolute;
+	box-shadow: 2px 2px 5px gray;
+}
+
+.dropmenu a {
+	display: block;
+	text-decoration: none;
+	background-color: white;
+	color: black;
+	padding: 10px 20px;
+	width: 100px;
+}
+
+.dropmenu a:hover {
+	background-color: gray;
+}
+
+.drop:hover .dropmenu {
+	display: block;
+}
+
+.login, .join {
+	float: right;
+}
+
+section {
+	flex: 1;
+	overflow-y: scroll;
+}
+
+footer {
+	flex: 0 0 100px;
+	background-color: #333;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+} 

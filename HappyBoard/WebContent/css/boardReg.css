@@ -1,0 +1,20 @@
+@charset "UTF-8";
+div {
+	display: flex;
+	justify-content: center;
+}
+
+input {
+	width: 400px;
+}
+
+textarea {
+	width: 400px;
+	height: 200px;
+}
+
+
+.button {
+	display: inline-block;
+	width: 50px;
+}
