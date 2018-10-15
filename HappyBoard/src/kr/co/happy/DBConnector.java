@@ -20,7 +20,7 @@ public class DBConnector {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(url, id, pw);
-			System.out.println("connetion succeed");
+			System.out.println("connection succeed");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -49,5 +49,9 @@ public class DBConnector {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static void close(Connection conn, PreparedStatement ps) {
+		close(conn, ps, null);
 	}
 }

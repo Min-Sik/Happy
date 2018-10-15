@@ -36,4 +36,5 @@
 <% 
 	} 
 %>
+	<button onclick="location.href='boardReg?bid=0&btype=${param.btype }'">글쓰기</button>
 </div>

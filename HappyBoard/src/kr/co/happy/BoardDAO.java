@@ -83,11 +83,77 @@ public class BoardDAO {
 		return dto;
 	}
 	
-	public void insertBoard(int btype, String title, String content) {
+	public void insertBoard(int btype, String title, String content, String pw) {
+		Connection conn = null;
+		PreparedStatement ps = null;
 		
-	
+		String query = " insert into h_board ( bid, btype, seq, btitle, bcontent, pw ) "
+				+ " values ( (select nvl(max(bid), 0)+1 from h_board), "
+				+ " ? , (select nvl(max(seq), 0)+1 from h_board where btype=?), ?, ?, ? ) ";
+		
+		try {
+			conn = DBConnector.getConn();
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, btype);
+			ps.setInt(2, btype);
+			ps.setString(3, title);
+			ps.setString(4, content);
+			ps.setString(5, pw);
+			
+			ps.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBConnector.close(conn, ps);
+		}
 	}
 	
+	public void updateBoard(int bid, String title, String content) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		String query = " update h_board set btitle = ?, bcontent = ? where bid = ? ";
+		
+		try {
+			conn = DBConnector.getConn();
+			ps = conn.prepareStatement(query);
+			ps.setString(1, title);
+			ps.setString(2, content);
+			ps.setInt(3, bid);
+			
+			ps.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBConnector.close(conn, ps);
+		}
+	}
 	
+	public boolean checkPw(int bid, String pw) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String query = " select * from h_board where bid = ? and pw = ? "; 
+		
+		try {
+			conn = DBConnector.getConn();
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, bid);
+			ps.setString(2, pw);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				result = true;
+			}
+			
+		} catch (Exception e) {
+			
+		} finally {
+			DBConnector.close(conn, ps, rs);
+		}
+		return result;
+	}
 }
 	

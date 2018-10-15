@@ -1,41 +1,46 @@
 package kr.co.happy;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class BoardRegServlet
- */
-@WebServlet("/BoardRegServlet")
+@WebServlet("/boardReg")
 public class BoardRegServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public BoardRegServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.setAttribute("content", "boardReg");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("template.jsp");
+		dispatcher.forward(request, response);
+		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String bid = request.getParameter("bid");
+		int intBid = Integer.parseInt(bid);
+		String pw = request.getParameter("pw");
+		
+		BoardDAO dao = BoardDAO.getInstance();
+		if(dao.checkPw(intBid, pw)) {
+			BoardDTO dto = dao.getBoard(intBid);
+			
+			request.setAttribute("content", "boardReg");
+			request.setAttribute("dto", dto);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("template.jsp");
+			dispatcher.forward(request, response);
+			
+		} else {
+			response.sendRedirect("boardDetail?bid=" + intBid +"&error=-1");
+		}
+		
 	}
-
 }
