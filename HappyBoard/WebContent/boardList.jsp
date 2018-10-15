@@ -22,7 +22,7 @@
 %>
 		<tr>
 			<td id="bid"><%=i.getSeq() %></td>
-			<td id="btitle"><a href="boardDetail?bid=<%=i.getBid() %>"><%=i.getBtitle() %></a></td>
+			<td id="btitle"><a href="boardDetail?bid=<%=i.getBid() %>&btype=<%=btype %>"><%=i.getBtitle() %></a></td>
 			<td id="bregdate"><%=i.getBregdate() %></td>
 		</tr>
 <%		

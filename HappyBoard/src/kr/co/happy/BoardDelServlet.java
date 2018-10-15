@@ -9,35 +9,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/boardReg")
-public class BoardRegServlet extends HttpServlet {
+@WebServlet("/boardDel")
+public class BoardDelServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public BoardRegServlet() {
+    public BoardDelServlet() {
         super();
     }
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("content", "boardReg");
-		RequestDispatcher dispatcher = request.getRequestDispatcher("template.jsp");
-		dispatcher.forward(request, response);
-		
-	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String bid = request.getParameter("bid");
 		int intBid = Integer.parseInt(bid);
 		String pw = request.getParameter("pw");
+		String btype = request.getParameter("btype");
 		
 		BoardDAO dao = BoardDAO.getInstance();
 		if(dao.checkPw(intBid, pw)) {
-			BoardDTO dto = dao.getBoard(intBid);
 			
-			request.setAttribute("content", "boardReg");
-			request.setAttribute("dto", dto);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("template.jsp");
-			dispatcher.forward(request, response);
-			
+			dao.deleteBoard(intBid);
+			response.sendRedirect("boardList?btype=" + btype);
 		} else {
 			response.sendRedirect("boardDetail?bid=" + intBid);
 		}

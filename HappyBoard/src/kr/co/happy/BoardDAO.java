@@ -155,5 +155,24 @@ public class BoardDAO {
 		}
 		return result;
 	}
+	
+	public void deleteBoard(int bid) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		String query = " delete from h_board where bid = ? ";
+		
+		try {
+			conn = DBConnector.getConn();
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, bid);
+			
+			ps.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBConnector.close(conn, ps);
+		}
+	}
 }
 	

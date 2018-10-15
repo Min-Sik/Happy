@@ -22,24 +22,21 @@ public class BoardListServlet extends HttpServlet {
 		
 		String btype = request.getParameter("btype");
 		String page = request.getParameter("page");
-		int intBtype = 1;
-		int intPage = 1;
-		if(btype!=null) {
-			intBtype = Integer.parseInt(btype);
+		
+		if(btype==null||page==null) {
+			response.sendRedirect("boardList?btype=1&page=1");
+		} else {
+			int intBtype = Integer.parseInt(btype);
+			int intPage = Integer.parseInt(page);
+		
+			BoardDAO dao = BoardDAO.getInstance();
+			ArrayList<BoardDTO> list = dao.getBoardList(intPage, intBtype);
+			request.setAttribute("list", list);
+			request.setAttribute("title", "HappyBoardList");
+			request.setAttribute("content", "boardList");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("template.jsp");
+			dispatcher.forward(request, response);
 		}
-		if(page!=null) {
-			intPage = Integer.parseInt(page);
-		}
-		
-		BoardDAO dao = BoardDAO.getInstance();
-		ArrayList<BoardDTO> list = dao.getBoardList(intPage, intBtype);
-		
-		
-		request.setAttribute("list", list);
-		request.setAttribute("title", "HappyBoardList");
-		request.setAttribute("content", "boardList");
-		RequestDispatcher dispatcher = request.getRequestDispatcher("template.jsp");
-		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
