@@ -22,18 +22,18 @@ public class BoardRegToServlet extends HttpServlet {
 		int intBid = Integer.parseInt(bid);
 		String btitle = request.getParameter("btitle");
 		String bcontent = request.getParameter("bcontent");
+		String btype = request.getParameter("btype");
+		int intBtype = Integer.parseInt(btype);
 		
 		BoardDAO dao = BoardDAO.getInstance();
 		
 		if(bid.equals("0")) {
-			String btype = request.getParameter("btype");
-			int intBtype = Integer.parseInt(btype);
 			String pw = request.getParameter("pw");
 			dao.insertBoard(intBtype, btitle, bcontent, pw);
 			response.sendRedirect("boardList?btype=" + intBtype);
 		} else {
 			dao.updateBoard(intBid, btitle, bcontent);
-			response.sendRedirect("boardDetail?bid=" + intBid);
+			response.sendRedirect("boardDetail?bid=" + intBid + "&btype=" + intBtype);
 		}
 	}
 }

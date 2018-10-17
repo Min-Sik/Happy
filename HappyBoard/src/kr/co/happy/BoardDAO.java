@@ -27,8 +27,8 @@ public class BoardDAO {
 				+ " select h.*, row_number() over(order by seq desc) as rnum from h_board h where h.btype = ? "
 				+ " ) " 
 				+ " where rnum between ? and ? ";
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*5 +1;
+		int end = page*5;
 		
 		try {
 			conn = DBConnector.getConn();
@@ -174,5 +174,86 @@ public class BoardDAO {
 			DBConnector.close(conn, ps);
 		}
 	}
-}
 	
+	public void insertComment(int bid, String content) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		String query = " insert into h_comment (cid, bid, ccontent) values "
+				+ "	((select nvl(max(cid), 0)+1 from h_comment), ?, ?) ";
+		
+		try {
+			conn = DBConnector.getConn();
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, bid);
+			ps.setString(2, content);
+			
+			ps.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBConnector.close(conn, ps);
+		}
+	}
+	
+	public ArrayList<CommentDTO> getComment(int bid) {
+		ArrayList<CommentDTO> list = new ArrayList<CommentDTO>();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String query = " select * from h_comment where bid = ? order by cid ";
+		
+		try {
+			conn = DBConnector.getConn();
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, bid);	
+	
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				CommentDTO dto = new CommentDTO();
+				dto.setBid(rs.getInt("bid"));
+				dto.setCid(rs.getInt("cid"));
+				dto.setContent(rs.getString("ccontent"));
+				dto.setPw(rs.getString("cpw"));
+				dto.setRegdate(rs.getString("cregdate"));
+				list.add(dto);
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBConnector.close(conn, ps, rs);
+		}
+		return list;
+	}
+	
+	
+	public int getPage(int btype) {
+		int result = -1;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String query = " select count(*) from h_board where btype = ? ";
+		
+		try {
+			conn = DBConnector.getConn();
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, btype);	
+	
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				int count = rs.getInt("count(*)");
+				if(count%5==0) {
+					result = count/5;
+				} else {
+					result = count/5 + 1;
+				}			
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBConnector.close(conn, ps, rs);
+		}
+		return result;
+	}
+}

@@ -20,8 +20,34 @@
 	margin: 10px;
 	border: 1px solid black;
 	width: 400px;
-	height: 300px;
+	min-height: 300px;
 	text-align: left;
 	font-size: 16px;
 	overflow-y: scroll;
+}
+
+.commentFrm {
+	margin-top: 20px;
+}
+
+.commentWrite {
+	width: 400px;
+}
+
+.commentFrm input {
+	float: right;
+}
+
+.commentView {
+	width: 400px;
+	margin-bottom: 10px;
+}
+
+.commentTitle {
+	width: 400px;
+	border-bottom : 1px dashed black;
+}
+
+.commentContent {
+	width: 400px;
 }

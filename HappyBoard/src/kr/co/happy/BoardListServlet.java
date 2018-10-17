@@ -31,6 +31,9 @@ public class BoardListServlet extends HttpServlet {
 		
 			BoardDAO dao = BoardDAO.getInstance();
 			ArrayList<BoardDTO> list = dao.getBoardList(intPage, intBtype);
+			int pageMax = dao.getPage(intBtype);
+			
+			request.setAttribute("pageMax", pageMax);
 			request.setAttribute("list", list);
 			request.setAttribute("title", "HappyBoardList");
 			request.setAttribute("content", "boardList");

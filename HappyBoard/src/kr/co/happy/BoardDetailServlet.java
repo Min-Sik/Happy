@@ -1,6 +1,7 @@
 package kr.co.happy;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,8 +24,10 @@ public class BoardDetailServlet extends HttpServlet {
 		
 		BoardDAO dao = BoardDAO.getInstance();
 		BoardDTO dto = dao.getBoard(intBid);
+		ArrayList<CommentDTO> list = dao.getComment(intBid);
 		
 		request.setAttribute("data", dto);
+		request.setAttribute("comments", list);
 		request.setAttribute("content", "boardDetail");
 		RequestDispatcher dispatcher = request.getRequestDispatcher("template.jsp");
 		dispatcher.forward(request, response);

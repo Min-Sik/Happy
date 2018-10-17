@@ -5,6 +5,11 @@
 <% 
 	ArrayList<BoardDTO> list = (ArrayList<BoardDTO>)request.getAttribute("list");
 	String btype = request.getParameter("btype");
+	int pageMax = (int)request.getAttribute("pageMax");
+	String pageNum = request.getParameter("page");
+	int intPageNum = Integer.parseInt(pageNum);
+
+	
 %>
 <link rel="stylesheet" type="text/css" href="css/boardList.css">
 <div class="container">
@@ -18,7 +23,7 @@
 			<th>작성일자</th>
 		</tr>
 <%
-	for(BoardDTO i : list) {
+		for(BoardDTO i : list) {
 %>
 		<tr>
 			<td id="bid"><%=i.getSeq() %></td>
@@ -26,11 +31,14 @@
 			<td id="bregdate"><%=i.getBregdate() %></td>
 		</tr>
 <%		
-	}
+		}
 %>
 	</table>
-<% 
-	} else { 
+	<div class="pageList">
+		
+	</div>
+<%
+	} else {
 %>
 	<h2>게시글 없음</h2>
 <% 
