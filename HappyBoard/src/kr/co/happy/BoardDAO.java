@@ -121,7 +121,7 @@ public class BoardDAO {
 			ps.setString(2, content);
 			ps.setInt(3, bid);
 			
-			ps.executeQuery();
+			ps.executeUpdate();                                                                 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

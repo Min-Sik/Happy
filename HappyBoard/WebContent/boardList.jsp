@@ -35,7 +35,9 @@
 %>
 	</table>
 	<div class="pageList">
-		
+		<input type="button" value="이전">
+		<%=intPageNum %>
+		<input type="button" value="다음" onclick="nextPage">
 	</div>
 <%
 	} else {

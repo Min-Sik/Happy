@@ -26,7 +26,7 @@ public class BoardRegServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html; charset=UTF-8");
+		
 		String bid = request.getParameter("bid");
 		int intBid = Integer.parseInt(bid);
 		String pw = request.getParameter("pw");
@@ -42,6 +42,7 @@ public class BoardRegServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 			
 		} else {
+			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('비밀번호가 다릅니다'); history.back();</script>");
 			out.flush();
